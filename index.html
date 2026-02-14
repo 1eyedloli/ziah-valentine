@@ -12,39 +12,96 @@ body{
   justify-content:center;
   align-items:center;
   flex-direction:column;
-  background:linear-gradient(to top,#87CEFA,#ffc8dd);
   font-family:'Segoe UI',sans-serif;
   overflow:hidden;
+  transition:2s ease;
+  background:linear-gradient(to top,#87CEFA,#ffc8dd);
 }
 
-/* ================= SKY ELEMENTS ================= */
+/* NIGHT MODE */
+body.night{
+  background:radial-gradient(circle at 30% 30%,#1b2735,#090a0f 70%);
+}
 
-/* ☀️ Sun */
-.sun{
+/* GALAXY STARS */
+.galaxy-star{
+  position:absolute;
+  width:2px;
+  height:2px;
+  background:white;
+  border-radius:50%;
+  opacity:0;
+}
+body.night .galaxy-star{
+  opacity:0.8;
+  animation:twinkle 3s infinite alternate;
+}
+@keyframes twinkle{
+  from{opacity:0.2;}
+  to{opacity:1;}
+}
+
+/* SHOOTING STAR */
+.shooting-star{
+  position:absolute;
+  width:120px;
+  height:2px;
+  background:linear-gradient(to right,white,transparent);
+  transform:rotate(45deg);
+  opacity:0;
+}
+body.night .shooting-star{
+  animation:shoot 4s linear infinite;
+}
+@keyframes shoot{
+  0%{top:-10%; left:-10%; opacity:1;}
+  100%{top:100%; left:100%; opacity:0;}
+}
+
+/* SUN → MOON */
+.sun-moon{
   position:absolute;
   top:60px;
   right:100px;
   width:120px;
   height:120px;
-  background:radial-gradient(circle,#FFD700 60%,#FFA500);
   border-radius:50%;
+  background:radial-gradient(circle,#FFD700 60%,#FFA500);
   box-shadow:0 0 60px #FFD700;
-  animation:glow 3s ease-in-out infinite alternate;
-  z-index:0;
+  transition:2s ease, background 2s ease, box-shadow 2s ease, transform 2s ease, top 15s linear;
+  z-index:4;
 }
-@keyframes glow{
-  from{box-shadow:0 0 40px #FFD700;}
-  to{box-shadow:0 0 80px #FFD700;}
+body.night .sun-moon{
+  background:radial-gradient(circle,#f1f1f1 60%,#cccccc);
+  box-shadow:0 0 40px white;
+  border-radius:50%;
+  clip-path: ellipse(50% 50% at 50% 50%);
+  animation:moonRotate 15s linear infinite, moonFloat 30s linear infinite alternate;
+}
+@keyframes moonRotate{
+  0%{transform:rotate(0deg);}
+  50%{transform:rotate(20deg);}
+  100%{transform:rotate(0deg);}
+}
+@keyframes moonFloat{
+  0%{top:60px; left:100px;}
+  50%{top:80px; left:80px;}
+  100%{top:60px; left:100px;}
 }
 
-/* ☁️ Clouds */
+/* DAY CLOUDS (fade at night) */
 .cloud{
   position:absolute;
   background:white;
   border-radius:50px;
-  opacity:0.9;
+  width:200px;
+  height:60px;
+  top:100px;
+  left:-250px;
   animation:moveClouds 60s linear infinite;
-  z-index:0;
+  z-index:5;
+  opacity:1;
+  transition:opacity 2s ease;
 }
 .cloud::before,
 .cloud::after{
@@ -52,13 +109,6 @@ body{
   position:absolute;
   background:white;
   border-radius:50%;
-}
-
-.cloud1{
-  width:200px;
-  height:60px;
-  top:100px;
-  left:-250px;
 }
 .cloud1::before{
   width:100px;height:100px;
@@ -68,7 +118,6 @@ body{
   width:120px;height:120px;
   top:-60px;right:20px;
 }
-
 .cloud2{
   width:180px;height:50px;
   top:200px;left:-300px;
@@ -82,21 +131,29 @@ body{
   width:110px;height:110px;
   top:-50px;right:10px;
 }
-
+body.night .cloud{
+  opacity:0; /* fade out at night */
+}
 @keyframes moveClouds{
   from{transform:translateX(0);}
   to{transform:translateX(150vw);}
 }
 
-/* 🕊️ Birds */
-.bird{
+/* BIRDS (fade at night) */
+.bird, .bird2{
   position:absolute;
   width:60px;height:40px;
-  top:40%;
-  left:-100px;
   animation:fly 15s linear infinite;
-  z-index:0;
+  z-index:6;
+  opacity:1;
+  transition:opacity 2s ease;
 }
+body.night .bird,
+body.night .bird2{
+  opacity:0;
+}
+.bird{top:40%; left:-100px;}
+.bird2{top:25%; left:-120px; animation-duration:20s;}
 .wing{
   position:absolute;
   width:30px;height:40px;
@@ -130,13 +187,8 @@ body{
   50%{top:40%;}
   100%{left:110%;top:55%;}
 }
-.bird2{
-  top:25%;
-  animation-duration:20s;
-}
 
-/* ================= ENVELOPE ================= */
-
+/* ENVELOPE */
 .wrapper{
   position:relative;
   width:340px;
@@ -144,9 +196,8 @@ body{
   perspective:1000px;
   cursor:pointer;
   margin-bottom:20px;
-  z-index:5;
+  z-index:7;
 }
-
 .envelope{
   position:absolute;
   width:100%;
@@ -160,14 +211,11 @@ body{
   font-size:20px;
   font-weight:bold;
   color:white;
-  z-index:1;
 }
-
 .envelope span{
   position:absolute;
   bottom:20px;
 }
-
 .flap{
   position:absolute;
   width:100%;
@@ -176,9 +224,7 @@ body{
   clip-path:polygon(0 0,100% 0,50% 65%);
   transform-origin:top;
   transition:0.8s ease;
-  z-index:3;
 }
-
 .letter{
   position:absolute;
   width:88%;
@@ -191,85 +237,59 @@ body{
   box-sizing:border-box;
   text-align:center;
   transition:0.8s ease;
-  z-index:2;
   color:#ff4d88;
   opacity:0;
+  transform:scale(0.8);
 }
-
 .wrapper.open .flap{
   transform:rotateX(180deg);
 }
 .wrapper.open .letter{
   top:10%;
   opacity:1;
+  transform:scale(1);
 }
 
-/* ================= FLOWERS ================= */
-
-.flower-container{
-  display:flex;
-  justify-content:center;
-  gap:20px;
+/* AQUARIUS CONSTELLATION */
+.aquarius{
+  position:absolute;
+  width:300px;
+  height:200px;
+  top:20%;
+  left:10%;
   opacity:0;
-  transition:1s ease;
-  margin-top:20px;
-  z-index:5;
 }
-
-.flower{
-  position:relative;
-  width:20px;height:20px;
-  background:#ff4d88;
+body.night .aquarius{
+  opacity:1;
+  transition:2s ease;
+}
+.star-dot{
+  position:absolute;
+  width:6px;height:6px;
+  background:white;
   border-radius:50%;
-  opacity:0;
-  transform-origin:bottom center;
+  box-shadow:0 0 10px white;
 }
-.flower::after{
-  content:"";
+.line{
   position:absolute;
-  bottom:-30px;left:50%;
-  width:4px;height:30px;
-  background:green;
-  transform:translateX(-50%);
-}
-.flower::before{
-  content:"";
-  position:absolute;
-  bottom:-20px;left:0;
-  width:10px;height:4px;
-  background:green;
-  transform:rotate(-30deg);
-}
-.flower .leaf2{
-  position:absolute;
-  bottom:-20px;right:0;
-  width:10px;height:4px;
-  background:green;
-  transform:rotate(30deg);
+  height:2px;
+  background:white;
+  transform-origin:left;
 }
 
-.wrapper.open + .flower-container{
-  opacity:1;
-}
-.wrapper.open + .flower-container .flower{
-  opacity:1;
-  animation:sway 3s ease-in-out infinite alternate;
-}
-@keyframes sway{
-  0%{transform:rotate(-5deg);}
-  50%{transform:rotate(5deg);}
-  100%{transform:rotate(-5deg);}
-}
 </style>
 </head>
 
 <body>
 
-<!-- Sky Elements -->
-<div class="sun"></div>
+<!-- SUN / MOON -->
+<div class="sun-moon"></div>
+
+<!-- DAY CLOUDS -->
 <div class="cloud cloud1"></div>
 <div class="cloud cloud2"></div>
 
+<!-- BIRDS -->
 <div class="bird">
   <div class="wing left"></div>
   <div class="wing right"></div>
@@ -279,7 +299,31 @@ body{
   <div class="wing right"></div>
 </div>
 
-<!-- Envelope -->
+<!-- GALAXY STARS -->
+<div class="galaxy-star" style="top:20%;left:30%;"></div>
+<div class="galaxy-star" style="top:40%;left:60%;"></div>
+<div class="galaxy-star" style="top:70%;left:20%;"></div>
+<div class="galaxy-star" style="top:15%;left:80%;"></div>
+<div class="galaxy-star" style="top:50%;left:10%;"></div>
+
+<!-- SHOOTING STAR -->
+<div class="shooting-star"></div>
+
+<!-- AQUARIUS CONSTELLATION -->
+<div class="aquarius">
+  <div class="star-dot" style="top:20px;left:40px;"></div>
+  <div class="star-dot" style="top:60px;left:80px;"></div>
+  <div class="star-dot" style="top:90px;left:120px;"></div>
+  <div class="star-dot" style="top:50px;left:160px;"></div>
+  <div class="star-dot" style="top:80px;left:220px;"></div>
+
+  <div class="line" style="top:23px;left:46px;width:60px;transform:rotate(35deg);"></div>
+  <div class="line" style="top:65px;left:86px;width:60px;transform:rotate(25deg);"></div>
+  <div class="line" style="top:93px;left:126px;width:70px;transform:rotate(-35deg);"></div>
+  <div class="line" style="top:53px;left:166px;width:60px;transform:rotate(25deg);"></div>
+</div>
+
+<!-- ENVELOPE -->
 <div class="wrapper" onclick="openCard()">
   <div class="envelope">
     ✉️
@@ -297,16 +341,10 @@ body{
   </div>
 </div>
 
-<div class="flower-container">
-  <div class="flower"><div class="leaf2"></div></div>
-  <div class="flower"><div class="leaf2"></div></div>
-  <div class="flower"><div class="leaf2"></div></div>
-  <div class="flower"><div class="leaf2"></div></div>
-</div>
-
 <script>
 function openCard(){
   document.querySelector(".wrapper").classList.toggle("open");
+  document.body.classList.toggle("night");
 }
 </script>
 
