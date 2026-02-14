@@ -9,29 +9,134 @@ body{
   margin:0;
   height:100vh;
   display:flex;
-  justify-content:center; /* vertical centering */
-  align-items:center;     /* horizontal centering */
+  justify-content:center;
+  align-items:center;
   flex-direction:column;
-  background:linear-gradient(135deg,#bde0fe,#ffc8dd);
+  background:linear-gradient(to top,#87CEFA,#ffc8dd);
   font-family:'Segoe UI',sans-serif;
   overflow:hidden;
 }
 
-/* Floating hearts (soft) */
-.heart{
+/* ================= SKY ELEMENTS ================= */
+
+/* ☀️ Sun */
+.sun{
   position:absolute;
-  bottom:-20px;
-  font-size:18px;
-  opacity:0.6;
-  animation:floatUp 7s linear infinite;
+  top:60px;
+  right:100px;
+  width:120px;
+  height:120px;
+  background:radial-gradient(circle,#FFD700 60%,#FFA500);
+  border-radius:50%;
+  box-shadow:0 0 60px #FFD700;
+  animation:glow 3s ease-in-out infinite alternate;
+  z-index:0;
 }
-@keyframes floatUp{
-  0%{transform:translateY(0);opacity:0;}
-  50%{opacity:0.7;}
-  100%{transform:translateY(-110vh);opacity:0;}
+@keyframes glow{
+  from{box-shadow:0 0 40px #FFD700;}
+  to{box-shadow:0 0 80px #FFD700;}
 }
 
-/* Envelope wrapper */
+/* ☁️ Clouds */
+.cloud{
+  position:absolute;
+  background:white;
+  border-radius:50px;
+  opacity:0.9;
+  animation:moveClouds 60s linear infinite;
+  z-index:0;
+}
+.cloud::before,
+.cloud::after{
+  content:"";
+  position:absolute;
+  background:white;
+  border-radius:50%;
+}
+
+.cloud1{
+  width:200px;
+  height:60px;
+  top:100px;
+  left:-250px;
+}
+.cloud1::before{
+  width:100px;height:100px;
+  top:-40px;left:20px;
+}
+.cloud1::after{
+  width:120px;height:120px;
+  top:-60px;right:20px;
+}
+
+.cloud2{
+  width:180px;height:50px;
+  top:200px;left:-300px;
+  animation-duration:80s;
+}
+.cloud2::before{
+  width:90px;height:90px;
+  top:-30px;left:10px;
+}
+.cloud2::after{
+  width:110px;height:110px;
+  top:-50px;right:10px;
+}
+
+@keyframes moveClouds{
+  from{transform:translateX(0);}
+  to{transform:translateX(150vw);}
+}
+
+/* 🕊️ Birds */
+.bird{
+  position:absolute;
+  width:60px;height:40px;
+  top:40%;
+  left:-100px;
+  animation:fly 15s linear infinite;
+  z-index:0;
+}
+.wing{
+  position:absolute;
+  width:30px;height:40px;
+  border:3px solid black;
+  border-top:none;
+  border-left:none;
+  border-right:none;
+  border-radius:50%;
+  transform-origin:center bottom;
+}
+.wing.left{
+  left:0;
+  animation:flapLeft 0.6s infinite ease-in-out;
+}
+.wing.right{
+  right:0;
+  animation:flapRight 0.6s infinite ease-in-out;
+}
+@keyframes flapLeft{
+  0%{transform:rotate(15deg);}
+  50%{transform:rotate(45deg);}
+  100%{transform:rotate(15deg);}
+}
+@keyframes flapRight{
+  0%{transform:rotate(-15deg);}
+  50%{transform:rotate(-45deg);}
+  100%{transform:rotate(-15deg);}
+}
+@keyframes fly{
+  0%{left:-100px;top:60%;}
+  50%{top:40%;}
+  100%{left:110%;top:55%;}
+}
+.bird2{
+  top:25%;
+  animation-duration:20s;
+}
+
+/* ================= ENVELOPE ================= */
+
 .wrapper{
   position:relative;
   width:340px;
@@ -39,9 +144,9 @@ body{
   perspective:1000px;
   cursor:pointer;
   margin-bottom:20px;
+  z-index:5;
 }
 
-/* Envelope body */
 .envelope{
   position:absolute;
   width:100%;
@@ -58,13 +163,11 @@ body{
   z-index:1;
 }
 
-/* Envelope text */
 .envelope span{
   position:absolute;
   bottom:20px;
 }
 
-/* Flap */
 .flap{
   position:absolute;
   width:100%;
@@ -76,7 +179,6 @@ body{
   z-index:3;
 }
 
-/* Letter inside */
 .letter{
   position:absolute;
   width:88%;
@@ -88,24 +190,22 @@ body{
   padding:20px;
   box-sizing:border-box;
   text-align:center;
-  transform:translateY(0);
   transition:0.8s ease;
   z-index:2;
   color:#ff4d88;
   opacity:0;
 }
 
-/* Open animation */
 .wrapper.open .flap{
   transform:rotateX(180deg);
 }
-
 .wrapper.open .letter{
   top:10%;
   opacity:1;
 }
 
-/* Flower container below envelope */
+/* ================= FLOWERS ================= */
+
 .flower-container{
   display:flex;
   justify-content:center;
@@ -113,78 +213,73 @@ body{
   opacity:0;
   transition:1s ease;
   margin-top:20px;
+  z-index:5;
 }
 
-/* Individual flowers */
 .flower{
   position:relative;
-  width:20px;
-  height:20px;
+  width:20px;height:20px;
   background:#ff4d88;
   border-radius:50%;
   opacity:0;
-  transition:all 0.8s ease;
   transform-origin:bottom center;
 }
-
-/* Stem */
 .flower::after{
   content:"";
   position:absolute;
-  bottom:-30px;
-  left:50%;
-  width:4px;
-  height:30px;
+  bottom:-30px;left:50%;
+  width:4px;height:30px;
   background:green;
   transform:translateX(-50%);
-  border-radius:2px;
 }
-
-/* Leaves */
 .flower::before{
   content:"";
   position:absolute;
-  bottom:-20px;
-  left:0;
-  width:10px;
-  height:4px;
+  bottom:-20px;left:0;
+  width:10px;height:4px;
   background:green;
-  border-radius:2px;
   transform:rotate(-30deg);
 }
 .flower .leaf2{
-  content:"";
   position:absolute;
-  bottom:-20px;
-  right:0;
-  width:10px;
-  height:4px;
+  bottom:-20px;right:0;
+  width:10px;height:4px;
   background:green;
-  border-radius:2px;
   transform:rotate(30deg);
 }
 
-/* Flowers appear when envelope opens */
 .wrapper.open + .flower-container{
   opacity:1;
 }
-
-/* 9 flowers with staggered sway */
-.wrapper.open + .flower-container .flower:nth-child(1){ opacity:1; animation:sway 3s ease-in-out infinite alternate; }
-.wrapper.open + .flower-container .flower:nth-child(2){ opacity:1; animation:sway 3.2s ease-in-out infinite alternate; }
-.wrapper.open + .flower-container .flower:nth-child(3){ opacity:1; animation:sway 2.8s ease-in-out infinite alternate; }
-.wrapper.open + .flower-container .flower:nth-child(4){ opacity:1; animation:sway 3.1s ease-in-out infinite alternate; }
-
+.wrapper.open + .flower-container .flower{
+  opacity:1;
+  animation:sway 3s ease-in-out infinite alternate;
+}
 @keyframes sway{
-  0%{ transform:scale(1) rotate(-5deg);}
-  50%{ transform:scale(1) rotate(5deg);}
-  100%{ transform:scale(1) rotate(-5deg);}
+  0%{transform:rotate(-5deg);}
+  50%{transform:rotate(5deg);}
+  100%{transform:rotate(-5deg);}
 }
 </style>
 </head>
 
 <body>
 
+<!-- Sky Elements -->
+<div class="sun"></div>
+<div class="cloud cloud1"></div>
+<div class="cloud cloud2"></div>
+
+<div class="bird">
+  <div class="wing left"></div>
+  <div class="wing right"></div>
+</div>
+<div class="bird bird2">
+  <div class="wing left"></div>
+  <div class="wing right"></div>
+</div>
+
+<!-- Envelope -->
 <div class="wrapper" onclick="openCard()">
   <div class="envelope">
     ✉️
@@ -192,17 +287,16 @@ body{
   </div>
   <div class="flap"></div>
   <div class="letter">
-    <h3>Happy Valentine's Day😼</h3>
+    <h3>Happy Valentine's Day 😼</h3>
     <p>
       Suntukan nalang tayo mamaya haha<br>
-      wala ng lsm na yan😾<br>
-      Happy Valentine's Sungit💕
+      wala ng lsm na yan 😾<br>
+      Happy Valentine's Sungit 💕
     </p>
     <b>- Papi</b>
   </div>
 </div>
 
-<!-- Flowers centered below envelope -->
 <div class="flower-container">
   <div class="flower"><div class="leaf2"></div></div>
   <div class="flower"><div class="leaf2"></div></div>
@@ -210,14 +304,9 @@ body{
   <div class="flower"><div class="leaf2"></div></div>
 </div>
 
-<!-- subtle floating hearts -->
-<div class="heart" style="left:20%;">💗</div>
-<div class="heart" style="left:55%; animation-delay:3s;">💙</div>
-<div class="heart" style="left:75%; animation-delay:5s;">💖</div>
-
 <script>
 function openCard(){
-  document.querySelector('.wrapper').classList.toggle('open');
+  document.querySelector(".wrapper").classList.toggle("open");
 }
 </script>
 
