@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>For Ziah 💘</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#bde0fe,#ffc8dd);
+  font-family:'Segoe UI',sans-serif;
+  overflow:hidden;
+}
+
+/* Floating hearts (soft) */
+.heart{
+  position:absolute;
+  bottom:-20px;
+  font-size:18px;
+  opacity:0.6;
+  animation:floatUp 7s linear infinite;
+}
+@keyframes floatUp{
+  0%{transform:translateY(0);opacity:0;}
+  50%{opacity:0.7;}
+  100%{transform:translateY(-110vh);opacity:0;}
+}
+
+/* Envelope wrapper */
+.wrapper{
+  position:relative;
+  width:340px;
+  height:230px;
+  perspective:1000px;
+  cursor:pointer;
+}
+
+/* Envelope body */
+.envelope{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:#ffafcc;
+  border-radius:10px;
+  box-shadow:0 15px 30px rgba(0,0,0,0.2);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:20px;
+  font-weight:bold;
+  color:white;
+  z-index:1;
+}
+
+/* Envelope text */
+.envelope span{
+  position:absolute;
+  bottom:20px;
+}
+
+/* Flap */
+.flap{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:#ff8fab;
+  clip-path:polygon(0 0,100% 0,50% 65%);
+  transform-origin:top;
+  transition:0.8s ease;
+  z-index:3;
+}
+
+/* Letter inside */
+.letter{
+  position:absolute;
+  width:88%;
+  height:80%;
+  background:white;
+  top:60%;
+  left:6%;
+  border-radius:8px;
+  padding:20px;
+  box-sizing:border-box;
+  text-align:center;
+  transform:translateY(0);
+  transition:0.8s ease;
+  z-index:2;
+  color:#ff4d88;
+  opacity:0;
+}
+
+/* Open animation */
+.wrapper.open .flap{
+  transform:rotateX(180deg);
+}
+
+.wrapper.open .letter{
+  top:10%;
+  opacity:1;
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper" onclick="openCard()">
+  
+  <div class="envelope">
+    ✉️
+    <span>For Ziah 💌</span>
+  </div>
+
+  <div class="flap"></div>
+
+  <div class="letter">
+    <h2>Happy Valentine's Day 💘</h2>
+    <p>
+      Suntukan nalang tayo mamaya haha<br>
+      wala ng lsm na yan 😘<br><br>
+      Alam mo naman sasabihin ko 💕
+    </p>
+    <b>- Papi</b>
+  </div>
+
+</div>
+
+<!-- subtle floating hearts -->
+<div class="heart" style="left:20%;">💗</div>
+<div class="heart" style="left:55%; animation-delay:3s;">💙</div>
+<div class="heart" style="left:75%; animation-delay:5s;">💖</div>
+
+<script>
+function openCard(){
+  document.querySelector('.wrapper').classList.toggle('open');
+}
+</script>
+
+</body>
+  </html>
