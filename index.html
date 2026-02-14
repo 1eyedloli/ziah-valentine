@@ -10,10 +10,12 @@ body{
   height:100vh;
   display:flex;
   justify-content:center;
-  align-items:center;
+  align-items:flex-start;
+  flex-direction:column;
   background:linear-gradient(135deg,#bde0fe,#ffc8dd);
   font-family:'Segoe UI',sans-serif;
   overflow:hidden;
+  padding-top:50px;
 }
 
 /* Floating hearts (soft) */
@@ -37,6 +39,7 @@ body{
   height:230px;
   perspective:1000px;
   cursor:pointer;
+  margin-bottom:20px;
 }
 
 /* Envelope body */
@@ -102,30 +105,121 @@ body{
   top:10%;
   opacity:1;
 }
+
+/* Flower container below envelope */
+.flower-container{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  opacity:0;
+  transition:1s ease;
+  margin-top:20px;
+}
+
+/* Individual flowers */
+.flower{
+  position:relative;
+  width:20px;
+  height:20px;
+  background:#ff4d88;
+  border-radius:50%;
+  opacity:0;
+  transition:all 0.8s ease;
+  transform-origin:bottom center;
+}
+
+/* Stem */
+.flower::after{
+  content:"";
+  position:absolute;
+  bottom:-30px;
+  left:50%;
+  width:4px;
+  height:30px;
+  background:green;
+  transform:translateX(-50%);
+  border-radius:2px;
+}
+
+/* Leaves */
+.flower::before{
+  content:"";
+  position:absolute;
+  bottom:-20px;
+  left:0;
+  width:10px;
+  height:4px;
+  background:green;
+  border-radius:2px;
+  transform:rotate(-30deg);
+}
+.flower .leaf2{
+  content:"";
+  position:absolute;
+  bottom:-20px;
+  right:0;
+  width:10px;
+  height:4px;
+  background:green;
+  border-radius:2px;
+  transform:rotate(30deg);
+}
+
+/* Flowers appear when envelope opens */
+.wrapper.open + .flower-container{
+  opacity:1;
+}
+
+/* 9 flowers with staggered sway */
+.wrapper.open + .flower-container .flower:nth-child(1){ opacity:1; animation:sway 3s ease-in-out infinite alternate; }
+.wrapper.open + .flower-container .flower:nth-child(2){ opacity:1; animation:sway 3.2s ease-in-out infinite alternate; }
+.wrapper.open + .flower-container .flower:nth-child(3){ opacity:1; animation:sway 2.8s ease-in-out infinite alternate; }
+.wrapper.open + .flower-container .flower:nth-child(4){ opacity:1; animation:sway 3.1s ease-in-out infinite alternate; }
+.wrapper.open + .flower-container .flower:nth-child(5){ opacity:1; animation:sway 2.9s ease-in-out infinite alternate; }
+.wrapper.open + .flower-container .flower:nth-child(6){ opacity:1; animation:sway 3.3s ease-in-out infinite alternate; }
+.wrapper.open + .flower-container .flower:nth-child(7){ opacity:1; animation:sway 3.0s ease-in-out infinite alternate; }
+.wrapper.open + .flower-container .flower:nth-child(8){ opacity:1; animation:sway 3.2s ease-in-out infinite alternate; }
+.wrapper.open + .flower-container .flower:nth-child(9){ opacity:1; animation:sway 2.7s ease-in-out infinite alternate; }
+
+/* Sway animation for wind effect */
+@keyframes sway{
+  0%{ transform:scale(1) rotate(-5deg);}
+  50%{ transform:scale(1) rotate(5deg);}
+  100%{ transform:scale(1) rotate(-5deg);}
+}
 </style>
 </head>
 
 <body>
 
 <div class="wrapper" onclick="openCard()">
-  
   <div class="envelope">
     ✉️
     <span>For Ziah 💌</span>
   </div>
-
   <div class="flap"></div>
-
   <div class="letter">
-    <h3>Happy Valentine's Day!!</h3>
+    <h2>Happy Valentine's Day 💘</h2>
     <p>
       Suntukan nalang tayo mamaya haha<br>
-      wala ng lsm na yan 😘<br>
+      wala ng lsm na yan 😘<br><br>
       Alam mo naman sasabihin ko 💕
     </p>
     <b>- Papi</b>
   </div>
+</div>
 
+<!-- Flowers centered below envelope -->
+<div class="flower-container">
+  <div class="flower"><div class="leaf2"></div></div>
+  <div class="flower"><div class="leaf2"></div></div>
+  <div class="flower"><div class="leaf2"></div></div>
+  <div class="flower"><div class="leaf2"></div></div>
+  <div class="flower"><div class="leaf2"></div></div>
+  <div class="flower"><div class="leaf2"></div></div>
+  <div class="flower"><div class="leaf2"></div></div>
+  <div class="flower"><div class="leaf2"></div></div>
+  <div class="flower"><div class="leaf2"></div></div>
 </div>
 
 <!-- subtle floating hearts -->
@@ -140,4 +234,4 @@ function openCard(){
 </script>
 
 </body>
-  </html>
+</html>
